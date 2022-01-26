@@ -6,8 +6,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN addgroup -g 1001 thomas && \
-    adduser -s /bin/sh -u 1001 -D -G thomas -h /data -H thomas
+RUN addgroup --gid 1001 thomas && \
+    adduser --disabled-password --shell /bin/bash -uid 1001 --gid 1001 --home /data --gecos "" thomas
 
 
 
