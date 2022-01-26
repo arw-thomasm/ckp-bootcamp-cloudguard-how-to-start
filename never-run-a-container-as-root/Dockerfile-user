@@ -1,0 +1,14 @@
+FROM ubuntu
+
+RUN apt-get update && \
+    apt-get install -y \
+        vim && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN addgroup -g 1001 thomas && \
+    adduser -s /bin/sh -u 1001 -D -G thomas -h /data -H thomas
+
+USER thomas
+
+CMD ["bash"]
