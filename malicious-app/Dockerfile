@@ -1,0 +1,28 @@
+FROM nginx:alpine
+
+COPY data/html /usr/src/app
+COPY config/nginx/app.conf /etc/nginx/conf.d/default.conf
+COPY config/nginx/nginx.conf /etc/nginx//nginx.conf
+
+RUN chown -R root:root /etc/nginx && \
+    chown -R root:root /var/cache/nginx && \
+    find /etc/nginx -type d -exec chmod 777 {} \; && \
+    find /etc/nginx -type f -exec chmod 666 {} \; && \
+    find /var/cache/nginx -type d -exec chmod 777 {} \; && \
+    find /var/cache/nginx -type f -exec chmod 666 {} \; && \
+    find /run -type d -exec chmod 777 {} \; && \
+    find /run -type f -exec chmod 666 {} \;
+
+RUN apk update && \
+    apk add --no-cache bash
+
+EXPOSE 8080
+
+WORKDIR /usr/src/app
+
+COPY config/startscript.sh /usr/src/app/startscript.sh
+COPY config/badvirus.sh /usr/src/app/badvirus.sh
+
+RUN chmod 777 startscript.sh badvirus.sh
+
+CMD /usr/src/app/startscript.sh
