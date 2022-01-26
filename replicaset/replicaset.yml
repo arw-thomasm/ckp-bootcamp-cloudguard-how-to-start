@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: demo-replicaset
+  labels:
+    app: demo-replicaset
+    tier: frontend
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: demo-replicaset
+        tier: frontend
+    spec:
+      containers:
+        - name: demo-replicaset
+          image: arwthomasm/ckp-bootcamp-demo:replicaset
+          imagePullSecrets:
+            - name: regcred
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
