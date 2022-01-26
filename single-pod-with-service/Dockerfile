@@ -1,8 +1,7 @@
 FROM nginx:alpine
 
-COPY html /usr/src/app
-COPY config/nginx.conf /etc/nginx/nginx.conf
-COPY config/nginx/app.conf /etc/nginx/conf.d/
+COPY data/html /usr/src/app
+COPY config/nginx/app.conf /etc/nginx/conf.d/default.conf
 
 RUN chown -R root:root /etc/nginx && \
     chown -R root:root /var/cache/nginx && \
@@ -13,4 +12,4 @@ RUN chown -R root:root /etc/nginx && \
 
 EXPOSE 8080
 
-
+CMD ["nginx", "-g", "daemon off;"]

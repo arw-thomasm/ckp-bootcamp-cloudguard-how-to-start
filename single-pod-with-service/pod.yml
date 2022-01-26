@@ -1,17 +1,21 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-first-static-website
+  name: single-pod-with-service
+  namespace: ckp-bootcamp
   labels:
-    name: my-first-static-website
-    app: my-first-static-website
+    name: single-pod-with-service
+    app: single-pod-with-service
 spec:
   containers:
-  - name: my-first-static-website
-    image: arwthomasm/ckp-bootcamp-demo:single
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    ports:
-      - containerPort: 8080
+    - name: single-pod-with-service
+      image: arwthomasm/ckp-bootcamp-demo:single
+      imagePullSecrets:
+        - name: regcred
+      imagePullPolicy: Always
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      ports:
+        - containerPort: 8080
