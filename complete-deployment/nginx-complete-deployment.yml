@@ -1,0 +1,89 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-first-app-deployment-nginx-conf
+data:
+  nginx.conf: |
+    worker_processes  3;
+    error_log  /var/log/nginx/error.log;
+    events {
+      worker_connections  10240;
+    }
+    http {
+      log_format  main
+              'remote_addr:$remote_addr\t'
+              'time_local:$time_local\t'
+              'method:$request_method\t'
+              'uri:$request_uri\t'
+              'host:$host\t'
+              'status:$status\t'
+              'bytes_sent:$body_bytes_sent\t'
+              'referer:$http_referer\t'
+              'useragent:$http_user_agent\t'
+              'forwardedfor:$http_x_forwarded_for\t'
+              'request_time:$request_time';
+      access_log	/var/log/nginx/access.log main;
+      server {
+          listen       8080;
+          server_name  _;
+          location / {
+              root   /usr/share/nginx/html;
+              index  index.html index.htm;
+          }
+      }
+    }    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-first-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-first-app-deployment
+  template:
+    metadata:
+      labels:
+        app: my-first-app-deployment
+    spec:
+      containers:
+      - name: my-first-app-deployment
+        image: arwthomasm/openshift-demo-test1:nginx-static-demo
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - mountPath: /etc/nginx
+            readOnly: true
+            name: my-first-app-deployment-nginx-conf
+          - mountPath: /var/log/nginx
+            name: nginx-log
+        imagePullPolicy: Always
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: my-first-app-deployment-nginx-conf
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+      - name: nginx-log
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-first-app-deployment-service
+spec:
+  type: NodePort
+  selector:
+    app: my-first-app-deployment
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30020

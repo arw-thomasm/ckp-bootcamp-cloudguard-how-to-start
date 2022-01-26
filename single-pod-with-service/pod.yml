@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-first-static-website
+  labels:
+    name: my-first-static-website
+    app: my-first-static-website
+spec:
+  containers:
+  - name: my-first-static-website
+    image: arwthomasm/openshift-demo-test1:nginx-static-demo
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080
