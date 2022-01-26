@@ -2,7 +2,7 @@ FROM nginx:alpine
 
 COPY html /usr/src/app
 COPY config/nginx.conf /etc/nginx/nginx.conf
-COPY config/nginx.app.conf /etc/nginx/conf.d/
+COPY config/nginx/app.conf /etc/nginx/conf.d/
 
 RUN chown -R root:root /etc/nginx && \
     chown -R root:root /var/cache/nginx && \
