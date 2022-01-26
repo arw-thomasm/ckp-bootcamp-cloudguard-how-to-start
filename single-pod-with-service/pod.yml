@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
   - name: my-first-static-website
-    image: arwthomasm/openshift-demo-test1:nginx-static-demo
+    image: arwthomasm/ckp-bootcamp-demo:single
     resources:
       limits:
         memory: "128Mi"
