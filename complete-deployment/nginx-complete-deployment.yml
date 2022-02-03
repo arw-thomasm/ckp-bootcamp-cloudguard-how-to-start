@@ -61,7 +61,7 @@ spec:
         volumeMounts:
           - mountPath: /etc/nginx
             readOnly: true
-            name: my-first-app-deployment-nginx-conf
+            name: nginx-conf
           - mountPath: /var/log/nginx
             name: nginx-log
         imagePullPolicy: Always
