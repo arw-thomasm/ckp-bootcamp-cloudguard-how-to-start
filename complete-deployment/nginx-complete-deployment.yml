@@ -51,7 +51,7 @@ spec:
     spec:
       containers:
       - name: my-first-app-deployment
-        image: arwthomasm/openshift-demo-test1:nginx-static-demo
+        image: arwthomasm/ckp-bootcamp-demo:deployment
         resources:
           limits:
             memory: "128Mi"

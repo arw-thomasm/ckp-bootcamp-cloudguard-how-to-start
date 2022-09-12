@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: demo-replicaset
-          image: arwthomasm/ckp-bootcamp-demo:deployment
+          image: arwthomasm/ckp-bootcamp-demo:deployment-v2
           imagePullSecrets:
             - name: regcred
           imagePullPolicy: Always
